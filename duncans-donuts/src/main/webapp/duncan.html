@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Duncan's Just-In-Time Donuts</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        
+        <script type="text/javascript">
+            var numCakeDonuts;
+            var numGlazedDonuts;
+            var minstilpickup;
+            
+            function updateOrder() {
+                var TAX_RATE = 0.0925;
+                var DONUT_PRICE = 0.50;
+                numCakeDonuts = parseDonuts(document.getElementById("cakedonuts").value);
+                numGlazedDonuts = parseDonuts(document.getElementById("glazeddonuts").value);
+                minstilpickup = parsePickupTime(document.getElementById("minstilpickup").value);
+
+                if (isNan(numCakeDonuts)) {
+                    numCakeDonuts = 0;
+                }
+
+                if (isNan(numGlazedDonuts)) {
+                    numGlazedDonuts = 0;
+                }
+
+                var subTotal = (numCakeDonuts + numGlazedDonuts) * DONUT_PRICE;
+                var tax = subTotal * TAX_RATE;
+                var total = subTotal + tax;
+
+                document.getElementById("subtotal").value = "$" + subTotal.toFixed(2);
+                document.getElementById("tax").value = "$" + tax.toFixed(2);
+                document.getElementById("total").value = "$" + total.toFixed(2);
+            }
+
+            function parseDonuts(donutString) {
+                numDonuts = parseInt(donutString);
+                
+                if (donutString.indexOf("dozen") !== -1) {
+                    numDonuts *= 12;
+                }
+                
+                return numDonuts;
+            }
+            
+            function parsePickupTime(pickupMinutes) {
+                mins = parseInt(pickupMinutes);
+                
+                if(pickupMinutes.indexOf("minutes") !== -1) {
+                    // Not doing anything here.  Just practicing ;)
+                }
+                
+                return mins;
+            }
+
+            function placeOrder() {
+                var name = document.getElementById("name").value;
+                
+                if (name === "") {
+                    alert("I'm sorry but you must provide your name before submitting an order.");
+                }
+                else if (document.getElementById("pickupminutes").value === "" || isNaN(document.getElementById("pickupminutes").value)) {
+                    alert("I'm sorry but you must provide the number of minutes until pick-up before submitting an order.");
+                }
+                else {
+                    // Submit the order to the server
+                    //form.submit();        // This part is for a real order
+                        
+                    var orderGreeting = "Congratulations " + name;
+                    var orderDonutDetails = "Your order of " + numCakeDonuts + " cake donuts and " + numGlazedDonuts + " glazed donuts";
+                    var orderPickupDetails = "will be ready for pick-up in " + minstilpickup + " minutes.";
+                    var orderConfirmation = orderGreeting + "\n" + orderDonutDetails + " " + orderPickupDetails;
+                    alert(orderConfirmation);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="frame">
+
+            <div class="heading">Duncan's Just-In-Time Donuts</div>
+            <div class="subheading">All donuts 50 cents each, cake or glazed!</div>
+
+            <div id="left">
+                <img id="donuts" src="../resources/donuttime.png" alt="Just-In-Time Donuts" />
+            </div>
+
+            <form name="orderform" action="donuts.php" method="POST">
+
+                <div class="field">
+                    Name: <input type="text" id="name" name="name" value="" onchange="" />
+                </div>
+
+                <div class="field">
+                    # of cake donuts: <input type="text" id="cakedonuts" name="cakedonuts" value="" onchange="updateOrder();" />
+                </div>
+
+                <div class="field">
+                    # of glazed donuts: <input type="text" id="glazeddonuts" name="glazeddonuts" value="" onchange="updateOrder();" />
+                </div>
+
+                <div class="field">
+                    Minutes 'til pickup: <input type="text" id="minstilpickup" name="minstilpickup" value="" onchange="updateOrder();" />
+                </div>
+
+                <div class="field">
+                    Subtotal: <input type="text" id="subtotal" name="subtotal" value="" readonly="readonly" />
+                </div>
+
+                <div class="field">
+                    Tax: <input type="text" id="tax" name="tax" value="" readonly="readonly" />
+                </div>
+
+                <div class="field">
+                    Total: <input type="text" id="total" name="total" value="" readonly="readonly" />
+                </div>
+
+                <div class="field">
+                    <input type="button" value="Place Order" onclick="placeOrder(this.form);" />
+                </div>
+
+            </form>
+        </div>
+    </body>
+</html>
