@@ -13,15 +13,16 @@
             function updateOrder() {
                 var TAX_RATE = 0.0925;
                 var DONUT_PRICE = 0.50;
+                
                 numCakeDonuts = parseDonuts(document.getElementById("cakedonuts").value);
                 numGlazedDonuts = parseDonuts(document.getElementById("glazeddonuts").value);
                 minstilpickup = parsePickupTime(document.getElementById("minstilpickup").value);
 
-                if (isNan(numCakeDonuts)) {
+                if (isNaN(numCakeDonuts)) {
                     numCakeDonuts = 0;
                 }
 
-                if (isNan(numGlazedDonuts)) {
+                if (isNaN(numGlazedDonuts)) {
                     numGlazedDonuts = 0;
                 }
 
@@ -55,19 +56,21 @@
             }
 
             function placeOrder() {
-                var name = document.getElementById("name").value;
+                
+                var name = document.getElementById("nameInput").value;
                 
                 if (name === "") {
                     alert("I'm sorry but you must provide your name before submitting an order.");
                 }
-                else if (document.getElementById("pickupminutes").value === "" || isNaN(document.getElementById("pickupminutes").value)) {
+                else if (document.getElementById("minstilpickup").value === "" || isNaN(document.getElementById("minstilpickup").value)) {
                     alert("I'm sorry but you must provide the number of minutes until pick-up before submitting an order.");
                 }
                 else {
+                    
                     // Submit the order to the server
                     //form.submit();        // This part is for a real order
                         
-                    var orderGreeting = "Congratulations " + name;
+                    var orderGreeting = "Congratulations " + name + " :)";
                     var orderDonutDetails = "Your order of " + numCakeDonuts + " cake donuts and " + numGlazedDonuts + " glazed donuts";
                     var orderPickupDetails = "will be ready for pick-up in " + minstilpickup + " minutes.";
                     var orderConfirmation = orderGreeting + "\n" + orderDonutDetails + " " + orderPickupDetails;
@@ -83,44 +86,51 @@
             <div class="subheading">All donuts 50 cents each, cake or glazed!</div>
 
             <div id="left">
-                <img id="donuts" src="../resources/donuttime.png" alt="Just-In-Time Donuts" />
+                <img id="donuts" src="donuttime.png" alt="Just-In-Time Donuts" />
             </div>
 
-            <form name="orderform" action="donuts.php" method="POST">
+            <div id="middle">
+    <!--            <form name="orderform" action="donuts.php" method="POST">-->
+                <form name="orderform">
 
-                <div class="field">
-                    Name: <input type="text" id="name" name="name" value="" onchange="" />
-                </div>
+                    <div class="field">
+                        Name: <input type="text" id="nameInput" name="nameInput" value="" onchange="" />
+                    </div>
 
-                <div class="field">
-                    # of cake donuts: <input type="text" id="cakedonuts" name="cakedonuts" value="" onchange="updateOrder();" />
-                </div>
+                    <div class="field">
+                        # of cake donuts: <input type="text" id="cakedonuts" name="cakedonuts" value="" onchange="updateOrder();" />
+                    </div>
 
-                <div class="field">
-                    # of glazed donuts: <input type="text" id="glazeddonuts" name="glazeddonuts" value="" onchange="updateOrder();" />
-                </div>
+                    <div class="field">
+                        # of glazed donuts: <input type="text" id="glazeddonuts" name="glazeddonuts" value="" onchange="updateOrder();" />
+                    </div>
 
-                <div class="field">
-                    Minutes 'til pickup: <input type="text" id="minstilpickup" name="minstilpickup" value="" onchange="updateOrder();" />
-                </div>
+                    <div class="field">
+                        Minutes 'til pickup: <input type="text" id="minstilpickup" name="minstilpickup" value="" onchange="updateOrder();" />
+                    </div>
 
-                <div class="field">
-                    Subtotal: <input type="text" id="subtotal" name="subtotal" value="" readonly="readonly" />
-                </div>
+                    <div class="field">
+                        Subtotal: <input type="text" id="subtotal" name="subtotal" value="" readonly="readonly" />
+                    </div>
 
-                <div class="field">
-                    Tax: <input type="text" id="tax" name="tax" value="" readonly="readonly" />
-                </div>
+                    <div class="field">
+                        Tax: <input type="text" id="tax" name="tax" value="" readonly="readonly" />
+                    </div>
 
-                <div class="field">
-                    Total: <input type="text" id="total" name="total" value="" readonly="readonly" />
-                </div>
+                    <div class="field">
+                        Total: <input type="text" id="total" name="total" value="" readonly="readonly" />
+                    </div>
 
-                <div class="field">
-                    <input type="button" value="Place Order" onclick="placeOrder(this.form);" />
-                </div>
+                    <div class="field">
+                        <input type="button" value="Place Order" onclick="placeOrder(this.form);" />
+                    </div>
 
-            </form>
+                </form>
+            </div>
+            
+            <div id="right">
+                <img id="calAndHobbesSnowmen01" src="calvin-and-hobbes-snowmen01a.jpg" alt="cah01" />
+            </div>
         </div>
     </body>
 </html>

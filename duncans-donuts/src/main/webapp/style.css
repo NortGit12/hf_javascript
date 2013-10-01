@@ -13,6 +13,15 @@ body {
   width:130px;
 }
 
+#middle {
+    float: inside;
+}
+
+#right {
+    float: right;
+    width: 450px;
+}
+
 div.heading {
   font:20px arial;
   font-weight:bold;
