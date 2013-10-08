@@ -1,22 +1,73 @@
-<!DOCTYPE html>
 <html>
     <head>
         <title>iRock - The Virtual Pet Rock</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="cookie.js"></script>
         <script type="text/javascript">
-            function touchRock() {
-                var userName = prompt("What is your name?", "Enter your name here.");
-                
-                if(userName) {
-                    alert("It is good to meet you, " + userName + ".");
-                    document.getElementById("rockImg").src = "../resources/rock_happy.png";
+            
+            function resizeRock() {
+
+                var rockImage = document.getElementById("rockImg");
+                var rockImageHeight = (document.body.clientHeight - 50) * 0.9;
+                var rockImageStyle = rockImage.getAttribute("style");
+
+                rockImage.setAttribute("style", ("height: " + rockImageHeight + ";"));
+
+                document.getElementById("imageStyleInput").setAttribute("value", rockImageStyle);
+                document.getElementById("imageHeightInput").setAttribute("value", rockImageHeight);
+
+            }
+
+            function greetUser() {
+                var userName = readCookie("irock_username");
+
+                if (userName) {
+                    alert("Hello " + userName + ", I missed you.");
+                }
+                else {
+                    alert("Hello, I am your pet rock.");
                 }
             }
+
+            function touchRock() {
+                
+                userName = readCookie("irock_username");
+                
+                if (userName) {
+                    alert("I like the attention, " + userName + ".  Thank you.");
+                }
+                else {
+                    userName = prompt("What is your name?", "Enter your name here.");
+
+                    if (userName) {
+                        alert("It is good to meet you, " + userName + ".");
+                        writeCookie("irock_username", userName, 5 * 365);
+                    }
+                }
+                
+                document.getElementById("rockImg").setAttribute("src", "rock_happy.png");
+
+                setTimeout("document.getElementById('rockImg').setAttribute('src', 'rock.png');", 5000);
+            }
+            
         </script>
     </head>
-    <body onload="alert('Hello, I am your pet rock.');">
-        <div style="margin-top: 100px; text-align: center">
-            <img id="rockImg" src="../resources/rock.png" alt="iRockAndURock" onclick="touchRock();" style="cursor: pointer"/>
+    <body onload="resizeRock();
+                greetUser();" onresize="resizeRock();">
+
+        <div style="float: left">
+            <span>
+                Style: <input type="text" id="imageStyleInput" readonly="readonly" />
+                <br>
+                Image height: <input type="text" id="imageHeightInput" readonly="readonly" />
+                <br>
+                <input type="button" id="clearUserNameCookie" name="clearUserNameCookie" value="Clear user name cookie"onclick="eraseCookie('irock_username');" />
+            </span>
         </div>
+
+        <div style="margin-top: 100px; text-align: center;">
+            <img id="rockImg" src="rock.png" alt="iRockAndURock" onclick="touchRock();" style="cursor: pointer;"/>
+        </div>
+
     </body>
 </html>
