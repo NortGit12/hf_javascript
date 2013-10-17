@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <title>Mandango</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript">
+            var seatsArray = [1, 0, 1, 0, 0, 0, 1, 0, 1];
+            var selSeat = -1;
+
+            function initSeats() {
+                for (var seatIndex = 0; seatIndex < seatsArray.length; seatIndex++) {
+
+                    var seat = document.getElementById(("seat" + seatIndex));
+                    var seatImage;
+                    var seatText;
+
+                    if (seatsArray[seatIndex] === 0) {
+                        seatImage = "seat_avail.png";
+                        seatText = "available";
+                        seat.setAttribute("style", "cursor:pointer");
+                    }
+                    else {
+                        seatImage = "seat_unavail.png";
+                        seatText = "unavailable";
+                    }
+
+                    seat.setAttribute("src", seatImage);
+                    seat.setAttribute("alt", seatText);
+                }
+            }
+
+            function findSeat() {
+
+                // If the seat is already selected, reinitialize all seats to clear them
+                if (selSeat !== -1) {
+                    selSeat = -1;
+                    initSeats();
+                }
+
+                // Search through all the seats for availability
+                for (var seatIndex = 0; seatIndex < seatsArray.length; seatIndex++) {
+
+                    // See if the current seat is available
+                    if (seatsArray[seatIndex] === 0) {
+
+                        // Set the seat selection and update the appearance of the seat
+                        selSeat = seatIndex;
+
+                        document.getElementById(("seat" + seatIndex)).setAttribute("src", "seat_select.png");
+                        document.getElementById(("seat" + seatIndex)).setAttribute("alt", "Your seat");
+
+                        // Prompt the user to accept the seat
+                        var accepted = confirm("Seat " + (seatIndex + 1) + " is available.  Accept?");
+
+                        if (accepted) {
+
+                            document.getElementById(("seat" + 1)).setAttribute("src", "seat_select.png");
+                            document.getElementById(("seat" + 1)).setAttribute("alt", "selected");
+
+                            break;
+                        }
+                        else {
+
+                            // The user rejected the seat, so clear the seat selection and keep looking
+                            selSeat = -1;
+
+                            document.getElementById(("seat" + seatIndex)).setAttribute("src", "seat_avail.png");
+                            document.getElementById(("seat" + seatIndex)).setAttribute("alt", "Available seat");
+                        }
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body onload="initSeats();">
+        <div id="seatsDiv">
+            <span><img id="seat0" src="" alt="" /></span>
+            <span><img id="seat1" src="" alt="" /></span>
+            <span><img id="seat2" src="" alt="" /></span>
+            <span><img id="seat3" src="" alt="" /></span>
+            <span><img id="seat4" src="" alt="" /></span>
+            <span><img id="seat5" src="" alt="" /></span>
+            <span><img id="seat6" src="" alt="" /></span>
+            <span><img id="seat7" src="" alt="" /></span>
+            <span><img id="seat8" src="" alt="" /></span>
+        </div>
+        <div id="buttonDiv">
+            <span>
+                <input type="button" id="findSeatButton" value="Find Seat" onclick="findSeat();" />
+            </span>
+        </div>
+    </body>
+</html>
