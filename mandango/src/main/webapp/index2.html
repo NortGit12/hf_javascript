@@ -1,9 +1,14 @@
 <html>
     <head>
-        <title>Mandango - Single Seat Selection</title>
+        <title>Mandango - Three Seat Selection</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript">
-            var seatsArray = [1, 0, 1, 0, 0, 0, 1, 0, 1];
+//            var seatsArray = [1, 0, 1, 0, 0, 0, 1, 0, 1];
+//            var seatsArray = [false, true, false, true, true, true, false, true, false];
+            var seatsArray = [[false, true, false, true, true, true, false, true, false]
+                , [false, true, false, false, true, false, true, true, true]
+                , [true, true, true, true, true, true, false, true, false]
+                , [true, true, true, false, true, false, false, true, false]];
             var selSeat = -1;
 
             function initSeats() {
@@ -13,7 +18,8 @@
                     var seatImage;
                     var seatText;
 
-                    if (seatsArray[seatIndex] === 0) {
+//                    if (seatsArray[seatIndex] === 0) {
+                    if (seatsArray[seatIndex]) {
                         seatImage = "seat_avail.png";
                         seatText = "available";
                         seat.setAttribute("style", "cursor:pointer");
@@ -40,7 +46,9 @@
                 for (var seatIndex = 0; seatIndex < seatsArray.length; seatIndex++) {
 
                     // See if the current seat is available
-                    if (seatsArray[seatIndex] === 0) {
+//                    if (seatsArray[seatIndex] === 0) {
+//                    if(seatsArray[seatIndex] === 0 && seatsArray[(seatIndex + 1)] === 0 && seatsArray[(seatIndex + 2)] === 0) {
+                    if(seatsArray[seatIndex] && seatsArray[(seatIndex + 1)] && seatsArray[(seatIndex + 2)]) {
 
                         // Set the seat selection and update the appearance of the seat
                         selSeat = seatIndex;
